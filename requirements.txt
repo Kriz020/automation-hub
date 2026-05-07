@@ -3,3 +3,10 @@ uvicorn[standard]
 pandas
 openpyxl
 pydantic-settings
+loguru
+sqlmodel
+apscheduler
+python-telegram-bot
+httpx
+pytest
+pytest-asyncio
