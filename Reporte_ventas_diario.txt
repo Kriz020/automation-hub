@@ -1,0 +1,7 @@
+Web.InvokeWebService.InvokeWebServiceSaveToFilePost Url: $'''http://localhost:8000/reportes/ventas''' Accept: $'''application/octet-stream''' ContentType: $'''application/json''' RequestBody: $'''{\"ciudad\": \"Guatemala\"}''' FilePath: $'''C:\\reportes\\reporte_diario.xlsx''' ConnectionTimeout: 30 FollowRedirection: True ClearCookies: False FailOnErrorStatus: False EncodeRequestBody: False UserAgent: $'''Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.21) Gecko/20100312 Firefox/3.6''' Encoding: Web.Encoding.AutoDetect AcceptUntrustedCertificates: False TrimRequestBody: True ResponseHeaders=> WebServiceResponseHeaders DownloadedFile=> DownloadedFile StatusCode=> StatusCode
+IF StatusCode = 200 THEN
+    DateTime.GetCurrentDateTime.Local DateTimeFormat: DateTime.DateTimeFormat.DateAndTime CurrentDateTime=> CurrentDateTime
+    Text.ConvertDateTimeToText.FromCustomDateTime DateTime: CurrentDateTime CustomFormat: $'''yyyy-MM-dd''' Result=> FormattedDateTime
+    File.Move Files: $'''C:\\reportes\\reporte_diario.xlsx''' Destination: $'''C:\\reportes\\archivo''' IfFileExists: File.IfExists.Overwrite MovedFiles=> MovedFiles
+    File.RenameFiles.RenameAddText Files: $''' C:\\reportes\\archivo\\reporte_diario.xlsx''' TextToAdd: $'''_%FormattedDateTime%''' TextPosition: File.AddTextPosition.AfterName IfFileExists: File.IfExists.Overwrite RenamedFiles=> RenamedFiles
+END
